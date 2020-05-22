@@ -1,0 +1,58 @@
+{
+    "name": "@tomchinery/toggl-forecaster-cli",
+    "version": "0.0.1",
+    "description": "A CLI tool that generates a Toggl Plan project forecast using a Jira backlog and Timetastic holidays",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "prettier": "@tomchinery/prettier-config",
+    "bin": {
+        "@tomchinery/toggl-forecaster-cli": "bin/cli",
+        "toggl-forecaster-cli": "bin/cli"
+    },
+    "scripts": {
+        "prepare": "npm run build",
+        "build": "tsc",
+        "test": "jest --coverage",
+        "test.watch": "jest --coverage --watch",
+        "lint": "eslint ./src/ --fix --ext .js,.jsx,.ts,.tsx --max-warnings 0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tomchinery/toggl-forecaster-cli.git"
+    },
+    "keywords": [
+        "toggl",
+        "jira",
+        "timetastic",
+        "forecaster",
+        "planner",
+        "plan"
+    ],
+    "author": "Tom Chinery <tom@tomchinery.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/tomchinery/toggl-forecaster-cli/issues"
+    },
+    "homepage": "https://github.com/tomchinery/toggl-forecaster-cli#readme",
+    "devDependencies": {
+        "@commitlint/cli": "^8.1.0",
+        "@commitlint/config-conventional": "^8.1.0",
+        "@tomchinery/eslint-config": "0.0.3",
+        "@tomchinery/prettier-config": "0.0.1",
+        "@types/jest": "^24.0.18",
+        "eslint": "^6.2.2",
+        "husky": "^3.0.5",
+        "jest": "^24.9.0",
+        "prettier": "^1.18.2",
+        "ts-jest": "^24.0.2",
+        "typescript": "<3.6.0"
+    },
+    "dependencies": {
+        "esm": "^3.2.25"
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    }
+}
