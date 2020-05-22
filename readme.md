@@ -37,6 +37,12 @@ It will:
 
 ### [MVP 1.1] Migrate Assignees to Users (max 5 for free plan teams)
   
+## Installation
+
+```bash
+export TOGGL_CLIENT_ID=<your_client_id>;
+export TOGGL_CLIENT_SECRET=<your_client_secret>;
+```
 
 ## Jira Guidelines
 
