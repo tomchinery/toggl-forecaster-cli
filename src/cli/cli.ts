@@ -1,8 +1,9 @@
-// import { main } from '../main/main';
+import { getConfig } from '../config';
 
-interface CLIArgs {}
+interface CLIArgs { }
 
 export async function cli(args: CLIArgs): Promise<void> {
-    // call another function here
-    console.log('hello!');
+  // call another function here
+  const config = await getConfig();
+  console.log(config);
 }
