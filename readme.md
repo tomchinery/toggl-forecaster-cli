@@ -39,10 +39,48 @@ It will:
   
 ## Installation
 
+Install via npm:
+```bash
+npm install -g @tomchinery/toggl-forecaster-cli
+```
+
+Set some environment variables:
 ```bash
 export TOGGL_CLIENT_ID=<your_client_id>;
 export TOGGL_CLIENT_SECRET=<your_client_secret>;
 ```
+
+Create a configuration file in your home directory:
+```bash
+touch ~/.toggl-forecaster-config
+```
+
+## Configuration
+
+The `.toggl-forecaster-config` file contains the following object:
+
+```json
+  toggl: {
+    username: string;
+    password: string;
+  }
+  sprintStartEndDay: string;
+```
+
+##### Toggl
+**username**
+
+- Your Toggl Username
+
+**password**
+
+- Your Toggl Password
+
+##### CLI Specific
+
+**sprintStartEndDay**
+
+- The day your sprint starts
 
 ## Jira Guidelines
 

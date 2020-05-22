@@ -13,9 +13,6 @@ export async function cli(args: CLIArgs): Promise<void> {
   // check environment variables are set
   // @TODO(config): await checkEnvironmentVariables();
 
-  // call sub-command method
-
-  // rip into sub-command methods via commander?
   const togglAuthenticationRequest: TogglTokenResponse = togglErrorHandler(await togglAuthenticate({
     grant_type: TogglGrantTypes.Password,
     username: config.toggl.username,
@@ -23,6 +20,4 @@ export async function cli(args: CLIArgs): Promise<void> {
   }));
 
   const togglProfileRequest: TogglProfileResponse = togglErrorHandler(await togglGetProfile());
-
-  console.log(togglProfileRequest);
 }
