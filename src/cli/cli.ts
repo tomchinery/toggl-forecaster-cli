@@ -1,7 +1,7 @@
 import { getConfig } from '../config';
-import { togglAuthenticate } from '../api';
+import { togglAuthenticate, togglGetProfile } from '../api';
 import { TogglGrantTypes } from '../enums';
-import { TogglTokenResponse } from '../types';
+import { TogglTokenResponse, TogglProfileResponse } from '../types';
 import { togglErrorHandler } from '../api';
 
 interface CLIArgs { }
@@ -22,5 +22,7 @@ export async function cli(args: CLIArgs): Promise<void> {
     password: config.toggl.password
   }));
 
-  console.log('I WILL NOT GET CALLED!');
+  const togglProfileRequest: TogglProfileResponse = togglErrorHandler(await togglGetProfile());
+
+  console.log(togglProfileRequest);
 }
