@@ -48,6 +48,8 @@ Set some environment variables:
 ```bash
 export TOGGL_CLIENT_ID=<your_client_id>;
 export TOGGL_CLIENT_SECRET=<your_client_secret>;
+export JIRA_CLIENT_ID=<your_client_id>;
+export JIRA_CLIENT_SECRET=<your_client_secret>;
 ```
 
 Create a configuration file in your home directory:
