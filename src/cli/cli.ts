@@ -1,8 +1,10 @@
 import { getConfig } from '../config';
-import { togglAuthenticate, togglGetProfile, jiraGetAccessCode } from '../api';
-import { TogglGrantTypes } from '../enums';
-import { TogglTokenResponse, TogglProfileResponse } from '../types';
-import { togglErrorHandler } from '../api';
+import { togglAuthenticate, togglGetProfile, jiraGetAccessCode, jiraAuthenticateErrorHandler, jiraResourceErrorHandler, jiraGetCloudId } from '../api';
+import { TogglGrantTypes, JiraGrantTypes } from '../enums';
+import { TogglTokenResponse, TogglProfileResponse, JiraSitesResponse, JiraTokenResponse } from '../types';
+import { togglErrorHandler, jiraOAuthErrorHandler } from '../api';
+import { jiraAuthenticate } from '../api';
+import { Constants } from '../constants';
 
 interface CLIArgs { }
 
@@ -15,10 +17,22 @@ export async function cli(args: CLIArgs): Promise<void> {
 
   // Authenticate with Jira, Toggl, and Timetastic
 
-  // rename
-  const str = await jiraGetAccessCode();
+  // get jira access code
+  const jiraAccessCode = await jiraOAuthErrorHandler(jiraGetAccessCode());
 
-  console.log(str);
+  // authenticate jira clients
+  await jiraAuthenticateErrorHandler(await jiraAuthenticate({
+    grant_type: JiraGrantTypes.AuthorizationCode,
+    client_id: Constants.JiraClientId,
+    client_secret: Constants.JiraClientSecret,
+    code: jiraAccessCode,
+    redirect_uri: Constants.JiraCallbackUrl
+  }));
+
+  // get jira sites
+  const sites = await jiraResourceErrorHandler(await jiraGetCloudId());
+
+  console.log(sites);
 
 
   // const togglAuthenticationRequest: TogglTokenResponse = togglErrorHandler(await togglAuthenticate({

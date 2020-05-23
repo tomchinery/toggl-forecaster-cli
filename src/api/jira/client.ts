@@ -16,3 +16,11 @@ export const jiraOAuthClient = axios.create({
     'Content-Type': 'application/json'
   }
 });
+
+export const jiraResourcesClient = axios.create({
+  baseURL: ApiBaseUrls.JiraResourcesUrl,
+  responseType: 'json',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
