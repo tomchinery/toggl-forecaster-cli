@@ -2,7 +2,7 @@ import { jiraResourcesClient } from "./client";
 import { AxiosError } from "axios";
 import { JiraSitesResponse, JiraResourceError } from "../../types";
 
-export async function jiraGetCloudId() {
+export async function jiraGetSites() {
   try {
     const response = await jiraResourcesClient.get<JiraSitesResponse>('');
 

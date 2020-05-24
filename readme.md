@@ -61,11 +61,15 @@ touch ~/.toggl-forecaster-config
 
 The `.toggl-forecaster-config` file contains the following object:
 
-```json
+```typescript
   toggl: {
     username: string;
     password: string;
-  }
+  },
+  jira: {
+    site: string;
+    project: string;
+  },
   sprintStartEndDay: string;
 ```
 
