@@ -1,8 +1,11 @@
 // requests
 export * from './toggl/authenticate';
 export * from './toggl/get-profile';
+export * from './toggl/create-project';
 export * from './jira/authenticate';
 export * from './jira/get-sites';
+export * from './jira/get-users-by-project';
+export * from './jira/search-issues-by-project';
 
 // error handlers
 export * from './toggl/toggl-error-handler';

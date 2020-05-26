@@ -59,6 +59,7 @@ touch ~/.toggl-forecaster-config
 
 ## Configuration
 
+
 The `.toggl-forecaster-config` file contains the following object:
 
 ```typescript
