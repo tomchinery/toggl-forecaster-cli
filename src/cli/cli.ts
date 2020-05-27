@@ -8,8 +8,9 @@ import { Constants } from '../constants';
 import { getJiraCloudId } from '../common';
 import { togglCreateSegment } from '../api/toggl/create-segment';
 
-import { addBusinessDays, format, subBusinessDays } from 'date-fns';
+import { addBusinessDays, format, subBusinessDays, addWeeks } from 'date-fns';
 import { parseFromTimeZone } from 'date-fns-timezone';
+import { togglCreateMilestone } from '../api/toggl/create-milestone';
 
 interface CLIArgs { }
 
@@ -47,7 +48,7 @@ export async function cli(args: CLIArgs): Promise<void> {
   // create toggl plan
   // @TODO: add error handler
   const plan = togglErrorHandler(await togglCreateProject({
-    name: "Test Plan 2",
+    name: "Toggl Forecast Plan",
     color: "#8392ae"
   }, togglProfileRequest.workspaces[0].id));
 
@@ -79,18 +80,6 @@ export async function cli(args: CLIArgs): Promise<void> {
 
   const startDate = parseFromTimeZone(config.startDate, { timeZone: 'Europe/London' });
 
-  // const task = togglErrorHandler(await togglCreateTask(
-  //   {
-  //     name: 'TESTING TASK',
-  //     start_date: parseFromTimeZone(startDate.toISOString(), { timeZone: 'Europe/London' }).toISOString(),
-  //     end_date: addBusinessDays(startDate, 1).toISOString(),
-  //     color: '#a8ced7',
-  //     project_id: plan.id,
-  //     project_segment_id: usersWithIssues[0].segment_id
-  //   },
-  //   togglProfileRequest.workspaces[0].id,
-  // ));
-
   // map each user array calculating start and dates of each issue
   for (const user of usersWithIssues) {
     let userStartDate = startDate;
@@ -116,7 +105,8 @@ export async function cli(args: CLIArgs): Promise<void> {
           end_date: format(endDate, 'yyyy-MM-dd'),
           color: '#a8ced7',
           project_id: plan.id,
-          project_segment_id: user.segment_id
+          project_segment_id: user.segment_id,
+          notes: `https://addtoevent.atlassian.net/browse/${issue.fields.customfield_10016}`
         },
         togglProfileRequest.workspaces[0].id,
       ));
@@ -134,7 +124,62 @@ export async function cli(args: CLIArgs): Promise<void> {
     console.log(tasks[0]);
   }
 
-  // create tasks for each issue in toggl
-
   // handle sprint milestones
+  if (config.createMilestones) {
+    let sprintDate = startDate;
+    let sprintNameNo = 26;
+
+    const milestone = await togglErrorHandler(await togglCreateMilestone(
+      {
+        name: `Sprint 25 Start`,
+        date: format(startDate, 'yyyy-MM-dd'),
+        done: false,
+        holiday: false,
+        group_id: null,
+        color_id: 21
+      },
+      togglProfileRequest.workspaces[0].id,
+    ));
+
+    const milestoneEnd = await togglErrorHandler(await togglCreateMilestone(
+      {
+        name: `Sprint 24 End`,
+        date: format(startDate, 'yyyy-MM-dd'),
+        done: false,
+        holiday: false,
+        group_id: null,
+        color_id: 41
+      },
+      togglProfileRequest.workspaces[0].id,
+    ));
+
+    for (let i = 0; i < config.noOfFutureSprints; i++) {
+      const milestone = await togglErrorHandler(await togglCreateMilestone(
+        {
+          name: `Sprint ${sprintNameNo} Start`,
+          date: format(addWeeks(sprintDate, 2), 'yyyy-MM-dd'),
+          done: false,
+          holiday: false,
+          group_id: null,
+          color_id: 21
+        },
+        togglProfileRequest.workspaces[0].id,
+      ));
+
+      const milestoneEnd = await togglErrorHandler(await togglCreateMilestone(
+        {
+          name: `Sprint ${sprintNameNo - 1} End`,
+          date: format(addWeeks(sprintDate, 2), 'yyyy-MM-dd'),
+          done: false,
+          holiday: false,
+          group_id: null,
+          color_id: 41
+        },
+        togglProfileRequest.workspaces[0].id,
+      ));
+
+      sprintDate = addWeeks(sprintDate, 2);
+      sprintNameNo = sprintNameNo + 1;
+    }
+  }
 }

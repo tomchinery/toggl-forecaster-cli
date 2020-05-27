@@ -9,4 +9,6 @@ export interface Config {
   },
   sprintStartEndDay: string;
   startDate: string;
+  noOfFutureSprints: number;
+  createMilestones: boolean;
 }
