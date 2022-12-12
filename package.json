@@ -54,7 +54,7 @@
         "date-fns": "^2.14.0",
         "date-fns-timezone": "^0.1.4",
         "esm": "^3.2.25",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "open": "^7.0.4",
         "uuidv4": "^6.0.9"
     },
